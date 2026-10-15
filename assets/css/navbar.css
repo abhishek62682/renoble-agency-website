@@ -1,0 +1,322 @@
+/* ==========================================================================
+   Site navbar — floating dark pill (ported from the Zynic template's navbar)
+   Self-contained: all classes are prefixed `site-nav` so they never clash
+   with the Webflow styles in renoble.css.
+   ========================================================================== */
+
+.site-nav {
+  --nav-bg: #222;
+  --nav-frame: #fafafa;
+  --nav-link: #cdd0d0;
+  --nav-link-active: #fff;
+  --nav-btn-bg: #f8fcfc;
+  --nav-btn-text: #0c151d;
+  --nav-gap: 2rem;
+  --nav-radius-frame: 1rem;
+  --nav-radius-bar: 1rem;
+  --nav-radius-btn: 0.5rem;
+  --nav-radius-panel: 0.75rem;
+  --nav-ease: cubic-bezier(0.65, 0.05, 0, 1);
+  --nav-raised:
+    inset 1px 1px 1px #ffffffb3, inset -1px -1px 1px #0000003b,
+    0.445px 0.445px 0.629px -0.75px #00000042,
+    1.211px 1.211px 1.712px -1.5px #00000040,
+    2.658px 2.658px 3.759px -2.25px #0000003b,
+    5.901px 5.901px 8.345px -3px #00000030, 14px 14px 21.213px -3.75px #0003,
+    -0.5px -0.5px #000000b0;
+
+  position: fixed;
+  top: 1.25rem;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 0 1rem;
+  pointer-events: none;
+  font-family: Inter, "Helvetica Neue", Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.site-nav *,
+.site-nav *::before,
+.site-nav *::after {
+  box-sizing: border-box;
+}
+
+/* Light outer frame that gives the pill its "inset tray" look */
+.site-nav__frame {
+  position: relative;
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: 0.13rem 0.12rem;
+  background-color: var(--nav-frame);
+  border-radius: var(--nav-radius-frame);
+  box-shadow:
+    inset 0 1px 2px #0000000a,
+    inset 1px -2px 2px #0000000a;
+  pointer-events: auto;
+}
+
+.site-nav__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--nav-gap);
+  padding: 0.75rem 0.75rem 0.75rem 1.25rem;
+  background-color: var(--nav-bg);
+  border-radius: var(--nav-radius-bar);
+  box-shadow: var(--nav-raised);
+}
+
+/* ---- Brand ------------------------------------------------------------- */
+.site-nav__brand {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  min-width: 4rem;
+}
+
+.site-nav__logo {
+  display: block;
+  height: 1.5rem;
+  width: auto;
+}
+
+/* ---- Links ------------------------------------------------------------- */
+.site-nav__menu {
+  display: flex;
+  align-items: center;
+}
+
+.site-nav__links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--nav-gap);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.site-nav__link {
+  display: block;
+  height: 1.5rem;
+  overflow: clip;
+  color: var(--nav-link);
+  font-weight: 400;
+  text-decoration: none;
+  transition: color 0.25s;
+}
+
+.site-nav__link:hover,
+.site-nav__link:focus-visible,
+.site-nav__link[aria-current="true"],
+.site-nav__link[aria-current="page"] {
+  color: var(--nav-link-active);
+}
+
+/* Two stacked copies of the label; hover slides the second one into view */
+.site-nav__roll {
+  display: flex;
+  flex-direction: column;
+}
+
+.site-nav__roll > span {
+  display: block;
+  height: 1.5rem;
+  transition: transform 0.45s var(--nav-ease);
+}
+
+.site-nav__link:hover .site-nav__roll > span,
+.site-nav__link:focus-visible .site-nav__roll > span,
+.site-nav__cta:hover .site-nav__roll > span,
+.site-nav__cta:focus-visible .site-nav__roll > span {
+  transform: translateY(-100%);
+}
+
+/* ---- CTA button ---------------------------------------------------------- */
+.site-nav__cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  padding: 0.4rem 1rem;
+  color: var(--nav-btn-text);
+  background-color: var(--nav-btn-bg);
+  border-radius: var(--nav-radius-btn);
+  font-weight: 500;
+  text-decoration: none;
+  box-shadow: var(--nav-raised);
+  transition:
+    padding 0.25s cubic-bezier(0.215, 0.61, 0.355, 1),
+    background-color 0.25s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+.site-nav__cta:hover,
+.site-nav__cta:focus-visible {
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  background-color: var(--nav-btn-bg-hover, #f1f1f1);
+}
+
+.site-nav__cta .site-nav__roll {
+  height: 1.5rem;
+  overflow: clip;
+}
+
+.site-nav__cta--panel {
+  display: none;
+}
+
+/* ---- Mobile toggle (hamburger -> X) ------------------------------------- */
+.site-nav__toggle {
+  display: none;
+  position: relative;
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.site-nav__toggle span {
+  position: absolute;
+  left: 0.2rem;
+  right: 0.2rem;
+  height: 2px;
+  border-radius: 2px;
+  background: #fff;
+  transition:
+    transform 0.4s var(--nav-ease),
+    opacity 0.2s;
+}
+
+.site-nav__toggle span:nth-child(1) {
+  top: calc(50% - 4px);
+}
+
+.site-nav__toggle span:nth-child(2) {
+  top: calc(50% + 2px);
+}
+
+.site-nav__toggle[aria-expanded="true"] span:nth-child(1) {
+  transform: translateY(3px) rotate(45deg);
+}
+
+.site-nav__toggle[aria-expanded="true"] span:nth-child(2) {
+  transform: translateY(-3px) rotate(-45deg);
+}
+
+.site-nav__toggle:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+/* ---- Tablet & mobile: collapse into dropdown panel ----------------------- */
+@media screen and (max-width: 991px) {
+  .site-nav__bar {
+    padding-left: 1.25rem;
+    padding-right: 1rem;
+  }
+
+  .site-nav__toggle {
+    display: block;
+  }
+
+  .site-nav__cta--desk {
+    display: none;
+  }
+
+  .site-nav__cta--panel {
+    display: flex;
+  }
+
+  .site-nav__menu {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 2.5rem 1.25rem 2rem;
+    background-color: var(--nav-bg);
+    border-radius: var(--nav-radius-panel);
+    box-shadow: var(--nav-raised);
+    gap: 1.5rem;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-0.5rem);
+    transition:
+      opacity 0.3s ease,
+      transform 0.4s var(--nav-ease),
+      visibility 0s linear 0.4s;
+  }
+
+  .site-nav.is-open .site-nav__menu {
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 0.3s ease,
+      transform 0.4s var(--nav-ease),
+      visibility 0s;
+  }
+
+  .site-nav__links {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .site-nav__bar {
+    padding-left: 1rem;
+    padding-right: 0.9rem;
+  }
+
+  .site-nav__toggle {
+    width: 1.6rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-nav *,
+  .site-nav *::before,
+  .site-nav *::after {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---- Clear the fixed navbar at the top of each page ---------------------- */
+.home-hero {
+  padding-top: 9.5rem;
+}
+
+.internal-page {
+  padding-top: 7.5rem;
+}
+
+/* flat navbar: no outer frame/border, no box-shadow anywhere */
+.site-nav { --nav-raised: none; }
+.site-nav__frame { padding: 0; background-color: transparent; box-shadow: none; border: 0; }
+.site-nav__bar,
+.site-nav__cta,
+.site-nav__cta--panel { box-shadow: none; }
+@media (max-width: 991px) { .site-nav__menu { box-shadow: none; } }
+
+/* wider navbar */
+.site-nav__frame { max-width: 58rem; }
+
+/* hamburger uses Remix Icon (ri-menu-2-line); becomes a close icon when open */
+.site-nav__toggle { width: 2.25rem; height: 2.25rem; display: none; align-items: center; justify-content: center; }
+.site-nav__toggle i { font-size: 1.6rem; line-height: 1; color: #fff; transition: transform .35s var(--nav-ease); }
+.site-nav__toggle[aria-expanded="true"] i::before { content: "\eb99"; }
+.site-nav__toggle[aria-expanded="true"] i { transform: rotate(90deg); }
+@media (max-width: 991px) { .site-nav__toggle { display: flex; } }
+@media screen and (max-width: 479px) { .site-nav__toggle { width: 2.25rem; } }
+
+/* navbar position is driven by the scroll itself (assets/js/navbar.js), so no transition */
+.site-nav { will-change: transform; }

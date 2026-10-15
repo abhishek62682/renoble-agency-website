@@ -1,0 +1,11 @@
+{
+  "name": "renoble-agency",
+  "version": "1.0.0",
+  "private": true,
+  "description": "renoble.agency static website",
+  "scripts": {
+    "start": "npx --yes serve . -l 3000",
+    "format": "npx --yes prettier --write \"**/*.html\" \"assets/css/*.css\""
+  },
+  "license": "UNLICENSED"
+}

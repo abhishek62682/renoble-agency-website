@@ -1,0 +1,62 @@
+/* ==========================================================================
+   Site preview
+   Shows the top of a website as a static screenshot. On hover the full-page
+   screenshot scrolls automatically (top to bottom) and returns on mouse leave.
+   ========================================================================== */
+
+.project-cover-wrapper.has-site-preview {
+  aspect-ratio: 532 / 460;
+  height: auto;
+  padding-bottom: 0;
+}
+
+.site-preview {
+  --scroll-dist: 0px;
+  --scroll-time: 8s;
+
+  position: relative;
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 0;
+  overflow: hidden;
+  background: #fff;
+  border-radius: 16px 16px 0 0;
+  box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.04);
+}
+
+.site-preview__scroller {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  transform: translateY(0);
+  /* returning to the top on mouse leave */
+  transition: transform 0.7s cubic-bezier(0.65, 0.05, 0, 1);
+  will-change: transform;
+}
+
+.site-preview__long {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Hover: scroll down at a steady pace */
+.site-preview.is-scrolling .site-preview__scroller {
+  transform: translateY(var(--scroll-dist));
+  transition: transform var(--scroll-time) linear;
+}
+
+/* Project page: same component inside the larger cover frame */
+.project-cover-website .site-preview {
+  aspect-ratio: 16 / 10;
+  flex: none;
+  max-width: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-preview.is-scrolling .site-preview__scroller {
+    transform: none;
+  }
+}
+
